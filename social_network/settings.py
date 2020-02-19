@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .personal_settings import SECRET_KEY_, DATABASES_
+from .personal_settings import SECRET_KEY_, DATABASES_, HUNTER_API_KEY_
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,6 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY_
+HUNTER_API_KEY = HUNTER_API_KEY_
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
