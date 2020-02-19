@@ -11,6 +11,8 @@ class Post(models.Model):
     date_edited = models.DateField(auto_now=True)
     slug = models.SlugField(unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    like = models.ManyToManyField(User, blank=True, related_name="like")
+    unlike = models.ManyToManyField(User, blank=True, related_name="unlike")
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)

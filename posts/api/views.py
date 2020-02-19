@@ -54,3 +54,25 @@ def post_details(request, slug):
         else:
             data['response'] = 'failed to delete'
         return Response(data=data)
+
+
+@api_view(['GET', ])
+@permission_classes([IsAuthenticated, ])
+def like(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == 'GET':
+        post.like.add(request.user)
+        post.unlike.remove(request.user)
+        post.save()
+        return Response({'response': 'you liked this post'}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([IsAuthenticated, ])
+def unlike(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == 'GET':
+        post.unlike.add(request.user)
+        post.like.remove(request.user)
+        post.save()
+        return Response({'response': 'you liked this post'}, status=status.HTTP_200_OK)
