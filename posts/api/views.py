@@ -3,13 +3,15 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from posts.models import Post
 from .serializers import PostSerializer
+from .permissions import IsOwnerOrReadOnly
 
 
 @api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
-def create_post(request):
+def blog_post(request):
     if request.method == "GET":
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
@@ -23,37 +25,42 @@ def create_post(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT', 'GET', 'DELETE'])
-@permission_classes([IsAuthenticated, ])
-def post_details(request, slug):
+class PostDetail(APIView):
+    """
+    Retrieve, update or delete a post instance.
+    """
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
-    post = get_object_or_404(Post, slug=slug)
+    def get_post(self, slug):
+        post = get_object_or_404(Post, slug=slug)
+        return post
 
-    if request.method == "GET":
+    def get(self, request, slug):
+        post = self.get_post(slug=slug)
         serializer = PostSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    if post.author != request.user:
-        return Response({'response': ' only author can edit or delete post'})
-
-    if request.method == "PUT":
+    def put(self, request, slug):
+        post = self.get_post(slug=slug)
+        # if post.author != request.user:
+        #     return Response({'response': ' only author can edit or delete post'})
         serializer = PostSerializer(post, request.data)
         data = {}
         if serializer.is_valid():
             serializer.save()
             data['response'] = 'successfully edited'
             return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == "DELETE":
+    def delete(self, request, slug):
+        post = self.get_post(slug=slug)
         data = {}
         deleted = post.delete()
         if deleted:
             data['response'] = 'successfully deleted'
         else:
             data['response'] = 'failed to delete'
-        return Response(data=data)
+        return Response(data=data, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET', ])
