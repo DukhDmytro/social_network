@@ -57,7 +57,7 @@ class PostDetail(APIView):
         """
         post = self.get_post(slug=slug)
         if post.author != request.user:
-            return Response({'response': ' only author can edit or delete post'})
+            return Response({'response': ' only author can edit or delete post'} , status.HTTP_400_BAD_REQUEST)
         serializer = PostSerializer(post, request.data)
         data = {}
         if serializer.is_valid():
@@ -72,7 +72,7 @@ class PostDetail(APIView):
         """
         post = self.get_post(slug=slug)
         if post.author != request.user:
-            return Response({'response': ' only author can edit or delete post'})
+            return Response({'response': ' only author can edit or delete post'}, status.HTTP_400_BAD_REQUEST)
         data = {}
         deleted = post.delete()
         if deleted:

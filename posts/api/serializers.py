@@ -14,4 +14,4 @@ class PostSerializer(serializers.ModelSerializer):
         return post.author.username
 
     def get_likes(self, post):
-        return post.like.count() - post.unlike.count()
+        return post.like.count()
