@@ -5,7 +5,12 @@ from django.conf import settings
 
 
 def email_verify(email):
-    """Check is email valid and is it deliverable"""
+    """
+    Check is email valid and is it deliverable
+    :param email: email to check
+    :return: True if email valid
+    :raise ValidationError if email invalid or undeliverable
+    """
     hunter = PyHunter(settings.HUNTER_API_KEY)
     try:
         response = hunter.email_verifier(email)

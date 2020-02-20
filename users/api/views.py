@@ -1,15 +1,15 @@
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from .serializers import UserSerializer
 from users.utils import email_verify
 
 
-@api_view(['POST', ])
-@permission_classes([AllowAny])
-def signup(request):
-    if request.method == 'POST':
+class UserView(APIView):
+    permission_classes = AllowAny,
+
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
         data = {}
         email = request.data.get('email', '')
@@ -20,3 +20,4 @@ def signup(request):
             data['email'] = email
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
