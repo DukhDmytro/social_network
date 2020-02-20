@@ -12,8 +12,6 @@ Django rest framework.
 
 Edit social_network/personal_settings.py 
 
-`SECRET_KEY_ = 'Your_key'`
-
 ### Postgres
 `DATABASES_ = {
     'default': {
@@ -32,6 +30,9 @@ Edit social_network/personal_settings.py
         'NAME': 'db.sqlite3'),
     }
 }`
+
+### Other settings
+`SECRET_KEY_ = 'Your_key'`
 
 `HUNTER_API_KEY_ = 'Your_key'`
 
