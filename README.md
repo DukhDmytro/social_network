@@ -58,11 +58,11 @@ Edit social_network/personal_settings.py
 
 `api/posts/`
 
-`api/post/<slug>/`
+`api/posts/<slug>/`
 
-`api/post/<slug>/like/`
+`api/posts/<slug>/like/`
 
-`api/post/<slug>/unlike/`
+`api/posts/<slug>/unlike/`
 
 ## Built With
 [Django](https://www.djangoproject.com/)
