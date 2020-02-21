@@ -50,19 +50,19 @@ Edit social_network/personal_settings.py
 
 ## REST API endpoints
 
-`api/signin`
+`api/users/`
 
-`api/login`
+`api/login/`
 
-`api/login/refresh`
+`api/login/refresh/`
 
-`api/post`
+`api/posts/`
 
-`api/post/<slug>`
+`api/post/<slug>/`
 
-`api/post/like/<slug>`
+`api/post/<slug>/like/`
 
-`api/post/unlike/<slug>`
+`api/post/<slug>/unlike/`
 
 ## Built With
 [Django](https://www.djangoproject.com/)
