@@ -15,10 +15,10 @@ class PostTestCase(APITestCase):
         """
         # register user
         data = {'username': 'test_user', 'email': 'test@gmail.com', 'password': '12345'}
-        response = self.client.post('http://127.0.0.1:8000/api/signup', data)
+        response = self.client.post('http://127.0.0.1:8000/api/users/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # login user
-        response = self.client.post('http://127.0.0.1:8000/api/login', data)
+        response = self.client.post('http://127.0.0.1:8000/api/login/', data)
         token = response.data['access']
         # create new post
         data = {'title': 'hello', 'body': 'world', 'token': token}
@@ -42,10 +42,10 @@ class PostTestCase(APITestCase):
 
         # register new user
         data = {'username': 'test_user_new', 'email': 'test@gmail.com', 'password': '12345'}
-        response = self.client.post('http://127.0.0.1:8000/api/signup', data)
+        response = self.client.post('http://127.0.0.1:8000/api/users/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # login new user
-        response = self.client.post('http://127.0.0.1:8000/api/login', data)
+        response = self.client.post('http://127.0.0.1:8000/api/login/', data)
         token = response.data['access']
         # like post
         response = self.client.get('http://127.0.0.1:8000/api/post/like/hello-edited', {},
