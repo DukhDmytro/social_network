@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from posts.models import Post
 from .serializers import PostSerializer
 from .permissions import IsOwnerOrReadOnly
@@ -13,6 +14,7 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     lookup_field = 'slug'
+    pagination_class = PageNumberPagination
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy']:
