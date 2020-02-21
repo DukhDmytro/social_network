@@ -6,7 +6,7 @@ class PostTestCase(APITestCase):
 
     def test_post_unauthorized(self):
         """Test unauthorised"""
-        response = self.client.post('http://127.0.0.1:8000/api/post', {}, HTTP_AUTHORIZATION='')
+        response = self.client.post('http://127.0.0.1:8000/api/posts/', {}, HTTP_AUTHORIZATION='')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_one(self):
@@ -22,20 +22,20 @@ class PostTestCase(APITestCase):
         token = response.data['access']
         # create new post
         data = {'title': 'hello', 'body': 'world', 'token': token}
-        response = self.client.post('http://127.0.0.1:8000/api/post',  data,
+        response = self.client.post('http://127.0.0.1:8000/api/posts/',  data,
                                     HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.data['author'], 'test_user')
         # like post
-        response = self.client.get('http://127.0.0.1:8000/api/post/like/hello', {},
+        response = self.client.get('http://127.0.0.1:8000/api/posts/hello/like/', {},
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.data['response'], 'you like this post')
         # like count
-        response = self.client.get('http://127.0.0.1:8000/api/post/hello', {},
+        response = self.client.get('http://127.0.0.1:8000/api/posts/hello/', {},
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.data['like_count'], 1)
         # edit post
         data = {'title': 'hello-edited', 'body': 'new body'}
-        response = self.client.put('http://127.0.0.1:8000/api/post/hello', data,
+        response = self.client.put('http://127.0.0.1:8000/api/posts/hello/', data,
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.data['title'], 'hello-edited')
         self.assertEqual(response.data['body'], 'new body')
@@ -48,25 +48,25 @@ class PostTestCase(APITestCase):
         response = self.client.post('http://127.0.0.1:8000/api/login/', data)
         token = response.data['access']
         # like post
-        response = self.client.get('http://127.0.0.1:8000/api/post/like/hello-edited', {},
+        response = self.client.get('http://127.0.0.1:8000/api/posts/hello-edited/like/', {},
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
         # like count
-        response = self.client.get('http://127.0.0.1:8000/api/post/hello-edited', {},
+        response = self.client.get('http://127.0.0.1:8000/api/posts/hello-edited/', {},
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.data['like_count'], 2)
         # unlike post
-        response = self.client.get('http://127.0.0.1:8000/api/post/unlike/hello-edited', {},
+        response = self.client.get('http://127.0.0.1:8000/api/posts/hello-edited/unlike/', {},
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
-        response = self.client.get('http://127.0.0.1:8000/api/post/hello-edited', {},
+        response = self.client.get('http://127.0.0.1:8000/api/posts/hello-edited/', {},
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
         self.assertEqual(response.data['like_count'], 1)
         # try to delete post of another author
-        response = self.client.delete('http://127.0.0.1:8000/api/post/hello-edited', {},
+        response = self.client.delete('http://127.0.0.1:8000/api/posts/hello-edited/', {},
                                       HTTP_AUTHORIZATION=f'Bearer {token}')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         # try to edit post of another author
         data = {'title': 'new_title'}
-        response = self.client.put('http://127.0.0.1:8000/api/post/hello-edited', data,
+        response = self.client.put('http://127.0.0.1:8000/api/posts/hello-edited/', data,
                                    HTTP_AUTHORIZATION=f'Bearer {token}')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

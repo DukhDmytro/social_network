@@ -10,7 +10,7 @@ class Post(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_edited = models.DateField(auto_now=True)
     slug = models.SlugField(unique=True, blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     like = models.ManyToManyField(User, blank=True, related_name="like")
     unlike = models.ManyToManyField(User, blank=True, related_name="unlike")
 

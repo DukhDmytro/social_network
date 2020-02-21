@@ -5,10 +5,9 @@ from .serializers import UserSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
-class UserView(ModelViewSet):
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    lookup_field = 'username'
 
     def get_permissions(self):
         if self.action == 'create':
