@@ -14,13 +14,13 @@ class MessagesTestCase(APITestCase):
     def test_create_message(self):
         """Test  of creating messages"""
         # create message test
-        response = self.client.post('https://publicchatroomtask.herokuapp.com/api/messages/', data=DATA)
+        response = self.client.post('http://127.0.0.1:8000/api/messages/', data=DATA)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_invalid_email(self):
         """Test send message with invalid email"""
         # empty email field test
-        response = self.client.post('https://publicchatroomtask.herokuapp.com/api/messages/', data=DATA)
+        response = self.client.post('http://127.0.0.1:8000/api/messages/', data=DATA)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # invalid email

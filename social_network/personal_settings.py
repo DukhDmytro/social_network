@@ -2,10 +2,10 @@ SECRET_KEY_ = ')*k_v+g1&sj%o*%ocf#=m@s+!fmgnt$rcg$9puzlp7-!st$6f1'
 
 DATABASES_ = {
     'default': {
-        'ENGINE': 'django.db.backends.YourDBMS',
-        'NAME': 'db name',
-        'USER': 'user name',
-        'PASSWORD': 'user password',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'social_network',
+        'USER': 'admin',
+        'PASSWORD': '1',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
