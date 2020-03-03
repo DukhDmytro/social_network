@@ -49,6 +49,8 @@ Edit social_network/personal_settings.py
 `python manage.py test`
 
 ## REST API endpoints
+Api documentation
+`/api/swagger`
 
 `api/users/`
 
@@ -63,6 +65,8 @@ Edit social_network/personal_settings.py
 `api/posts/<slug>/like/`
 
 `api/posts/<slug>/unlike/`
+
+`/api/chat/`
 
 ## Built With
 [Django](https://www.djangoproject.com/)
